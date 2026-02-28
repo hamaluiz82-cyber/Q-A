@@ -9,55 +9,54 @@
 
         body { 
             font-family: 'Vazirmatn', sans-serif; 
-            background: radial-gradient(circle, #0f2027, #203a43, #000000);
+            background: radial-gradient(circle, #0d1b2a, #1b263b, #000);
             color: white; text-align: center; margin: 0; padding: 15px; min-height: 100vh;
         }
 
         .container { 
-            max-width: 750px; margin: 10px auto; background: rgba(0, 0, 0, 0.95); 
-            padding: 25px; border-radius: 20px; border: 4px solid #ffd700;
-            box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+            max-width: 750px; margin: 20px auto; background: rgba(0, 0, 0, 0.9); 
+            padding: 30px; border-radius: 25px; border: 3px solid #ffd700;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
         }
 
-        .header { font-size: 38px; color: #ffd700; font-weight: bold; margin-bottom: 5px; }
+        .header { font-size: 42px; color: #ffd700; font-weight: bold; text-shadow: 0 0 10px #ffd700; }
         
-        /* بەشی زانیاری سەرەوە */
         .game-info {
             display: flex; justify-content: space-between;
-            background: #1e272e; padding: 10px 20px; border-radius: 10px;
-            margin-bottom: 15px; border: 1px solid #444; font-size: 18px;
+            background: #1b263b; padding: 12px 25px; border-radius: 50px;
+            margin: 20px 0; border: 1px solid #ffd700; font-size: 18px;
         }
 
         #timer-box {
-            font-size: 35px; width: 75px; height: 75px; line-height: 75px;
-            border-radius: 50%; border: 5px solid #ff4757; margin: 10px auto;
-            background: #000; font-weight: bold;
+            font-size: 38px; width: 85px; height: 85px; line-height: 85px;
+            border-radius: 50%; border: 5px solid #ff4757; margin: 15px auto;
+            background: #000; font-weight: bold; color: #ff4757;
         }
 
         .question-box { 
-            background: linear-gradient(to left, #2c3e50, #000); 
-            padding: 25px; border-radius: 15px;
-            margin: 15px 0; font-size: 22px; border: 1px solid #ffd700;
+            background: #141e30; padding: 30px; border-radius: 20px;
+            margin: 20px 0; font-size: 24px; font-weight: bold;
+            box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
         }
 
         .options { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
         button { 
-            padding: 18px; font-size: 19px; font-family: 'Vazirmatn';
-            cursor: pointer; border-radius: 12px; border: 1px solid #ffd700;
-            background: #1a1a1a; color: white; transition: 0.2s;
+            padding: 20px; font-size: 18px; font-family: 'Vazirmatn';
+            cursor: pointer; border-radius: 15px; border: 2px solid #444;
+            background: #1b263b; color: white; transition: 0.3s ease;
         }
 
-        button:hover { background: #ffd700; color: black; font-weight: bold; }
+        button:hover { background: #ffd700; color: black; border-color: #fff; transform: translateY(-3px); }
 
-        .leaderboard { margin-top: 30px; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; }
+        .leaderboard { margin-top: 40px; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 20px; }
         table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 10px; border-bottom: 1px solid #333; }
-        th { color: #ffd700; }
+        th, td { padding: 12px; border-bottom: 1px solid #333; }
+        th { color: #ffd700; font-size: 20px; }
 
-        input { padding: 15px; border-radius: 30px; border: none; width: 80%; font-size: 18px; margin-bottom: 20px; text-align: center; }
+        input { padding: 15px; border-radius: 15px; border: 2px solid #ffd700; width: 70%; font-size: 18px; margin-bottom: 20px; text-align: center; background: #000; color: #fff; }
         .hidden { display: none; }
-        .remaining-count { color: #00d2ff; font-weight: bold; }
+        .remaining-count { color: #00d2ff; }
     </style>
 </head>
 <body>
@@ -66,16 +65,16 @@
     <div class="header">⏱️ لە ١٥ چرکەدا</div>
     
     <div id="start-screen">
-        <p>وەڵامێکی هەڵە بدەیت یارییەکە کۆتایی دێت!</p>
-        <input type="text" id="player-name" placeholder="ناوی خۆت بنووسە...">
+        <p style="font-size: 18px;">ئایا دەتوانیت هەموو پرسیارەکان بە ڕاستی وەڵام بدەیتەوە؟</p>
+        <input type="text" id="player-name" placeholder="ناوەکەت بنووسە...">
         <br>
-        <button onclick="startGame()" style="width: 250px; background: #2ed573; border: none; font-weight: bold; color: black;">دەستپێکردن</button>
+        <button onclick="startGame()" style="width: 200px; background: #2ed573; color: black; font-weight: bold;">دەستپێکردن</button>
     </div>
 
     <div id="quiz-screen" class="hidden">
         <div class="game-info">
             <div>نمرە: <span id="score-val" style="color:#ffd700">0</span></div>
-            <div class="remaining-count">ماوە: <span id="rem-count">0</span> پرسیار</div>
+            <div class="remaining-count">پرسیارە ماوەکان: <span id="rem-count">0</span></div>
         </div>
         <div id="timer-box">15</div>
         <div class="question-box" id="question-text"></div>
@@ -83,13 +82,13 @@
     </div>
 
     <div id="result-screen" class="hidden">
-        <h2 id="status-msg" style="color: #ff4757; font-size: 28px;">دۆڕای!</h2>
-        <p id="final-info" style="font-size: 20px;"></p>
-        <button onclick="location.reload()" style="background: #1e90ff; padding: 12px 30px;">دووبارە دەستپێکردنەوە</button>
+        <h2 id="status-msg" style="color: #ff4757; font-size: 32px;">یارییەکە کۆتایی هات!</h2>
+        <p id="final-info" style="font-size: 22px;"></p>
+        <button onclick="location.reload()" style="background: #1e90ff; padding: 15px 40px;">سەرەتا</button>
     </div>
 
     <div class="leaderboard">
-        <h3>📊 لیستەی ١٠ باشترینەکان</h3>
+        <h3>🏆 ڕیزبەندی یاریزانەکان</h3>
         <table>
             <thead><tr><th>ناو</th><th>نمرە</th></tr></thead>
             <tbody id="leader-body"></tbody>
@@ -98,26 +97,29 @@
 </div>
 
 <script>
-    // لیستی پرسیارە داواکراوەکان + نموونە بۆ ٢٥٠ پرسیار
+    // لیستی پرسیارە سەربەخۆکان
     const rawQuestions = [
         { q: "خاوەنی باڵۆندۆری ٢٠٠٧ كێیە ؟", a: ["میسی", "كریستیانۆ", "كاكا", "زیدان"], c: 2 },
-        { q: "خاوەنی زۆرترین نازناوی خولی ئینگلیزی چ تیپێكە ؟", a: ["ارسناڵ", "مانچستر یونایتد", "مانچستر سیتی", "لیڤەرپوول"], c: 1 },
+        { q: "خاوەنی زۆرترین نازناوی خولی ئینگلیزی چ تیپێكە ؟", a: ["ئەرسیناڵ", "مانچستەر یونایتد", "مانچستەر سیتی", "لیڤەرپوول"], c: 1 },
         { q: "خاوەنی نازناوی ٢٠٠٢ ی لالیگا کام یانەیە؟", a: ["ڕیاڵ مەدرید", "بەرشلۆنە", "ڤالنسیا", "ڤیاڕیاڵ"], c: 2 },
-        { q: "ڕاهێنەری لیڤەرپوول كێیە ؟", a: ["کلۆپ", "تۆخێل", "ئاڕنی سلۆت", "ئۆرتێتا"], c: 2 },
-        { q: "گۆڵكاری ٢٠٠٩ ی چامپیۆنز لیگ كێبوو ؟", a: ["ڕۆناڵدۆ", "مێسی", "ئیتۆ", "دڕۆگبا"], c: 1 },
-        { q: "گۆڵكاری مۆندیالی ٢٠٠٢ كێبوو ؟", a: ["کلۆزە", "ڕیڤاڵدۆ", "ڕۆناڵدۆی دیاردە", "هێنری"], c: 2 },
-        { q: "باشترین یاریزانی مۆندیال ٢٠٠٢ كێبوو ؟", a: ["ڕۆناڵدۆ", "ئۆلیڤەركان", "زیدان", "ڕیڤاڵدۆ"], c: 1 },
-        { q: "یەكەم گۆڵی كریستیانۆ لە ڕیالمەدرید بەرامبەر كێبوو ؟", a: ["مالاگا", "ڤالنسیا", "دیڤەرتیڤۆ لاكرۆنیا", "خیتافی"], c: 2 }
+        { q: "ڕاهێنەری ئێستای یانەی لیڤەرپوول كێیە ؟", a: ["یۆرگن کڵۆپ", "تۆماس تۆخێل", "ئاڕنی سلۆت", "میکێل ئۆرتێتا"], c: 2 },
+        { q: "گۆڵكاری ٢٠٠٩ ی چامپیۆنز لیگ كێبوو ؟", a: ["کریستیانۆ ڕۆناڵدۆ", "لیۆنێل مێسی", "ساموێل ئیتۆ", "دیدیێ دڕۆگبا"], c: 1 },
+        { q: "گۆڵكاری مۆندیالی ٢٠٠٢ ی کۆریا و ژاپۆن كێبوو ؟", a: ["میرۆسلاڤ کلۆزە", "ڕیڤاڵدۆ", "ڕۆناڵدۆی دیاردە", "تیێری هێنری"], c: 2 },
+        { q: "باشترین یاریزانی مۆندیالی ٢٠٠٢ كێبوو ؟", a: ["ڕۆناڵدۆ", "ئۆلیڤەركان", "زینەدین زیدان", "ڕیڤاڵدۆ"], c: 1 },
+        { q: "یەكەم گۆڵی كریستیانۆ ڕۆناڵدۆ لە ڕیاڵ مەدرید بەرامبەر کام یانە بوو ؟", a: ["مالاگا", "ڤالنسیا", "دیپۆرتیڤۆ لاكرۆنیا", "خیتافی"], c: 2 },
+        { q: "کام یانە زۆرترین جار نازناوی چامپیۆنز لیگی بردۆتەوە؟", a: ["میلان", "ڕیاڵ مەدرید", "بایرن میونشن", "لیڤەرپوول"], c: 1 },
+        { q: "مۆندیالی ٢٠١٠ لە کام وڵات ئەنجامدرا؟", a: ["بەڕازیل", "ئەڵمانیا", "ئەفریقای باشوور", "قەتەر"], c: 2 },
+        { q: "کام یاریزان بە 'پادشای تۆپی پێ' ناسراوە؟", a: ["مارادۆنا", "پێلێ", "مێسی", "کڕۆیف"], c: 1 },
+        { q: "کام یانە نازناوی 'پێشەوای باڤاری' هەیە؟", a: ["دۆرتمۆند", "بایرن میونشن", "لایپزیگ", "شالکە"], c: 1 },
+        { q: "درێژی یاریگای تۆپی پێی نێودەوڵەتی چەند مەترە؟", a: ["٩٠ بۆ ١٢٠ مەتر", "٨٠ بۆ ١٠٠ مەتر", "١٠٠ بۆ ١١٠ مەتر", "١١٠ بۆ ١٣٠ مەتر"], c: 0 },
+        { q: "کام یاریزان لە ساڵی ٢٠٢٢ مۆندیالی بردەوە؟", a: ["ئێمباپێ", "مێسی", "نێیمار", "هالاند"], c: 1 },
+        { q: "باشترین یاریزانی مۆندیالی ٢٠١٤ کێ بوو؟", a: ["تۆماس مولەر", "لیۆنێل مێسی", "خامیس ڕۆدریگێز", "نێیمار"], c: 1 },
+        { q: "کام یانە بە 'خانمە پیرەکە' ناسراوە؟", a: ["ئینتەر میلان", "ئەی سی میلان", "یوڤانتۆس", "ڕۆما"], c: 2 },
+        { q: "چەند یاریزان لە تیمی باسکەدا لەناو یاریگا یاری دەکەن؟", a: ["٥ یاریزان", "٦ یاریزان", "٧ یاریزان", "١١ یاریزان"], c: 0 },
+        { q: "ساڵی ٢٠١٤ کام وڵات مۆندیالی بردەوە؟", a: ["ئەرجەنتین", "بەڕازیل", "ئەڵمانیا", "هۆڵەندا"], c: 2 },
+        { q: "کێ گۆڵکاری مێژوویی یانەی بەرشلۆنەیە؟", a: ["ڕۆناڵدینیۆ", "سوارێز", "مێسی", "ئیتۆ"], c: 2 },
+        { q: "کام یاریزان زۆرترین گۆڵی لە مێژووی چامپیۆنز لیگدا هەیە؟", a: ["مێسی", "بەنزیما", "ڕائول", "ڕۆناڵدۆ"], c: 3 }
     ];
-
-    // پڕکردنەوەی هەتا ٢٥٠ پرسیار بە پرسیاری جۆراوجۆر
-    for(let i=1; i<=242; i++) {
-        rawQuestions.push({
-            q: `پرسیاری وەرزشی ژمارە ${i+8}: کام یاریزان زۆرترین گۆڵی لە خولی ژمارە ${i} تۆمارکردووە؟`,
-            a: ["ڕۆناڵدۆ", "مێسی", "هالاند", "ئێمباپێ"],
-            c: Math.floor(Math.random() * 4)
-        });
-    }
 
     let gameQuestions = [];
     let currentIdx = 0;
@@ -128,27 +130,27 @@
 
     function startGame() {
         playerName = document.getElementById('player-name').value;
-        if(!playerName) return alert("تکایە ناوت بنووسە!");
+        if(!playerName) return alert("تکایە سەرەتا ناوەکەت بنووسە!");
         
         // تێکەڵکردنی پرسیارەکان بە هەڕەمەکی
-        gameQuestions = rawQuestions.sort(() => Math.random() - 0.5);
+        gameQuestions = [...rawQuestions].sort(() => Math.random() - 0.5);
         
         document.getElementById('start-screen').classList.add('hidden');
         document.getElementById('quiz-screen').classList.remove('hidden');
-        updateRemaining();
+        updateInfo();
         loadQuestion();
     }
 
-    function updateRemaining() {
-        const remaining = gameQuestions.length - currentIdx;
-        document.getElementById('rem-count').innerText = remaining;
+    function updateInfo() {
+        document.getElementById('rem-count').innerText = gameQuestions.length - currentIdx;
+        document.getElementById('score-val').innerText = score;
     }
 
     function loadQuestion() {
         clearInterval(timer);
         timeLeft = 15;
         document.getElementById('timer-box').innerText = timeLeft;
-        document.getElementById('timer-box').style.borderColor = "#ff4757";
+        document.getElementById('timer-box').style.color = "#ff4757";
         
         startTimer();
 
@@ -171,7 +173,7 @@
             document.getElementById('timer-box').innerText = timeLeft;
             if(timeLeft <= 0) {
                 clearInterval(timer);
-                gameOver("⏱️ کاتت تەواو بوو! پێویستە خێراتر بیت.");
+                gameOver("⏱️ کاتت تەواو بوو! پێویستە خێراتر وەڵام بدەیتەوە.");
             }
         }, 1000);
     }
@@ -180,17 +182,16 @@
         clearInterval(timer);
         if(i === gameQuestions[currentIdx].c) {
             score += 10;
-            document.getElementById('score-val').innerText = score;
             currentIdx++;
-            updateRemaining();
+            updateInfo();
             
             if(currentIdx < gameQuestions.length) {
                 loadQuestion();
             } else {
-                gameOver("🏆 پیرۆزە! هەموو پرسیارەکانت بە سەرکەوتوویی بڕی!");
+                gameOver("🏆 پیرۆزە! تۆ هەموو پرسیارەکانت بە سەرکەوتوویی بڕی!");
             }
         } else {
-            gameOver("❌ وەڵامەکە هەڵە بوو! نمرەکەت پاشەکەوت کرا.");
+            gameOver("❌ وەڵامەکەت هەڵە بوو! یارییەکە وەستا.");
         }
     }
 
@@ -198,20 +199,20 @@
         document.getElementById('quiz-screen').classList.add('hidden');
         document.getElementById('result-screen').classList.remove('hidden');
         document.getElementById('status-msg').innerText = msg;
-        document.getElementById('final-info').innerText = `${playerName}، تۆ توانیت ${score} نمرە بەدەست بێنیت.`;
+        document.getElementById('final-info').innerText = `${playerName}، نمرەکەت بریتییە لە: ${score}`;
         saveScore(playerName, score);
     }
 
     function saveScore(n, s) {
-        let list = JSON.parse(localStorage.getItem('15sec_final_v3')) || [];
+        let list = JSON.parse(localStorage.getItem('15sec_final_scores')) || [];
         list.push({n, s});
         list.sort((a,b) => b.s - a.s);
-        localStorage.setItem('15sec_final_v3', JSON.stringify(list.slice(0, 10)));
+        localStorage.setItem('15sec_final_scores', JSON.stringify(list.slice(0, 10)));
         updateBoard();
     }
 
     function updateBoard() {
-        let list = JSON.parse(localStorage.getItem('15sec_final_v3')) || [];
+        let list = JSON.parse(localStorage.getItem('15sec_final_scores')) || [];
         document.getElementById('leader-body').innerHTML = list.map(x => `<tr><td>${x.n}</td><td>${x.s}</td></tr>`).join('');
     }
 
