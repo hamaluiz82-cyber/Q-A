@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لە ١٥ چرکەدا - پێشبڕکێی وەرزشی</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
+
+        body { 
+            font-family: 'Vazirmatn', sans-serif; 
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white; 
+            text-align: center; 
+            margin: 0; 
+            padding: 20px;
+        }
+
+        .container { 
+            max-width: 650px; 
+            margin: 30px auto; 
+            background: rgba(0, 0, 0, 0.85); 
+            padding: 30px; 
+            border-radius: 25px; 
+            border: 4px solid #ffd700; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .title-brand { font-size: 40px; color: #ffd700; margin-bottom: 10px; font-weight: bold; }
+        
+        /* کاتژمێر */
+        #timer-display {
+            font-size: 30px;
+            width: 70px;
+            height: 70px;
+            line-height: 70px;
+            border-radius: 50%;
+            border: 4px solid #ff4757;
+            margin: 10px auto;
+            color: #ff4757;
+            font-weight: bold;
+        }
+
+        .question-box { 
+            background: #2f3542;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-size: 22px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .options { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        button { 
+            padding: 15px; 
+            font-size: 18px; 
+            font-family: 'Vazirmatn';
+            cursor: pointer; 
+            border-radius: 12px; 
+            border: none; 
+            background: #57606f; 
+            color: white; 
+            transition: 0.2s; 
+        }
+
+        button:hover { background: #ffd700; color: black; }
+
+        .leaderboard { margin-top: 40px; background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 15px; }
+        table { width: 100%; margin-top: 10px; border-collapse: collapse; }
+        th, td { padding: 10px; border-bottom: 1px solid #555; }
+        
+        input { padding: 12px; border-radius: 8px; border: none; width: 60%; margin-bottom: 15px; font-size: 16px; text-align: center; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="title-brand">⏱️ لە ١٥ چرکەدا</div>
+    <p>پێشبڕکێی خێرای زانیاری وەرزشی</p>
+    <hr style="border: 1px solid #444;">
+
+    <div id="start-screen">
+        <input type="text" id="player-name" placeholder="ناوەکەت بنووسە...">
+        <br>
+        <button onclick="startGame()" style="background: #2ed573; width: 200px;">دەستپێکردن</button>
+    </div>
+
+    <div id="quiz-screen" class="hidden">
+        <div id="timer-display">15</div>
+        <div class="question-box" id="question-text"></div>
+        <div class="options" id="options-container"></div>
+        <p style="margin-top: 20px;">نمرە: <span id="current-score" style="color:#ffd700">0</span></p>
+    </div>
+
+    <div id="result-screen" class="hidden">
+        <h2 id="final-status">یاری کۆتایی هات!</h2>
+        <p id="final-msg"></p>
+        <button onclick="location.reload()" style="background: #1e90ff;">دووبارە هەوڵ بدەوە</button>
+    </div>
+
+    <div class="leaderboard">
+        <h3>📊 ڕیزبەندی باشترینەکان</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ناو</th>
+                    <th>نمرە</th>
+                </tr>
+            </thead>
+            <tbody id="leaderboard-body"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "کام یانە ناسراوە بە 'بلووگڕانا'؟", a: ["ڕیاڵ مەدرید", "بارسێلۆنا", "چێڵسی", "مانچستەر سیتی"], correct: 1 },
+        { q: "مۆندیالی ٢٠٢٦ لە کام کیشوەر دەبێت؟", a: ["ئاسیا", "ئەوروپا", "ئەمریکای باکوور", "ئەفریقا"], correct: 2 },
+        { q: "گۆڵکاری مێژوویی خولی یانە پاڵەوانەکان کێیە؟", a: ["مێسی", "لیڤاندۆڤسکی", "بەنزیما", "ڕۆناڵدۆ"], correct: 3 },
+        { q: "چەند یاریزان لەناو یاریگای تۆپی پێدا یاری دەکەن (بۆ یەک تیم)؟", a: ["١٠ یاریزان", "١١ یاریزان", "١٢ یاریزان", "٩ یاریزان"], correct: 1 },
+        { q: "کام وڵات مۆندیالی ٢٠١٨ی بردەوە؟", a: ["فەرەنسا", "کرۆاتیا", "بەڕازیل", "ئەڵمانیا"], correct: 0 }
+    ];
+
+    let currentIdx = 0;
+    let score = 0;
+    let timer;
+    let timeLeft = 15;
+    let playerName = "";
+
+    function startGame() {
+        playerName = document.getElementById('player-name').value;
+        if(!playerName) { alert("تکایە ناوەکەت بنووسە!"); return; }
+        document.getElementById('start-screen').classList.add('hidden');
+        document.getElementById('quiz-screen').classList.remove('hidden');
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        clearInterval(timer);
+        timeLeft = 15;
+        document.getElementById('timer-display').innerText = timeLeft;
+        
+        startTimer();
+
+        const q = questions[currentIdx];
+        document.getElementById('question-text').innerText = q.q;
+        const container = document.getElementById('options-container');
+        container.innerHTML = '';
+
+        q.a.forEach((opt, i) => {
+            const btn = document.createElement('button');
+            btn.innerText = opt;
+            btn.onclick = () => checkAnswer(i);
+            container.appendChild(btn);
+        });
+    }
+
+    function startTimer() {
+        timer = setInterval(() => {
+            timeLeft--;
+            document.getElementById('timer-display').innerText = timeLeft;
+            if(timeLeft <= 0) {
+                clearInterval(timer);
+                alert("⏱️ کاتەکەت تەواو بوو!");
+                nextQuestion();
+            }
+        }, 1000);
+    }
+
+    function checkAnswer(i) {
+        clearInterval(timer);
+        if(i === questions[currentIdx].correct) {
+            score += 10;
+            document.getElementById('current-score').innerText = score;
+        }
+        nextQuestion();
+    }
+
+    function nextQuestion() {
+        currentIdx++;
+        if(currentIdx < questions.length) {
+            loadQuestion();
+        } else {
+            endGame();
+        }
+    }
+
+    function endGame() {
+        document.getElementById('quiz-screen').classList.add('hidden');
+        document.getElementById('result-screen').classList.remove('hidden');
+        document.getElementById('final-msg').innerText = `${playerName}، نمرەکەت بریتییە لە: ${score}`;
+        saveToLeaderboard(playerName, score);
+    }
+
+    function saveToLeaderboard(name, score) {
+        let list = JSON.parse(localStorage.getItem('15sec_quiz')) || [];
+        list.push({name, score});
+        list.sort((a,b) => b.score - a.score);
+        localStorage.setItem('15sec_quiz', JSON.stringify(list.slice(0, 5)));
+        showLeaderboard();
+    }
+
+    function showLeaderboard() {
+        let list = JSON.parse(localStorage.getItem('15sec_quiz')) || [];
+        document.getElementById('leaderboard-body').innerHTML = list.map(i => `<tr><td>${i.name}</td><td>${i.score}</td></tr>`).join('');
+    }
+
+    window.onload = showLeaderboard;
+</script>
+
+</body>
+</html>
