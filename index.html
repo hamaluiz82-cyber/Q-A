@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لە ١٥ چرکەدا - بێ دووبارەبوونەوە</title>
+    <title>یاری ١٥ چرکە - بێ دووبارەبوونەوە</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
         body { font-family: 'Vazirmatn', sans-serif; background: radial-gradient(circle, #001529, #000c18); color: white; text-align: center; margin: 0; padding: 15px; }
@@ -58,16 +58,17 @@
 </div>
 
 <script>
-    // 👇👇👇 لینکی Firebase ی خۆت لێرە دابنێ 👇👇👇
+    // 👇 لینکی Firebase ی خۆت لێرە دابنێ 👇
     const FIREBASE_URL = "https://in-15-second-default-rtdb.firebaseio.com/scores.json";
 
-    const questions = [
+    // لیستی پرسیارەکان (تەنها ئەوانەی خۆتت بۆ دادەنێم)
+    const allQuestions = [
         { q: "گۆڵكاری مۆندیالی ٢٠٢٢ كێبوو ؟", a: ["میسی", "ممباپی", "گریزمان", "ئەلڤارێز"], c: 1 },
         { q: "گۆڵ دروستكەری مۆندیالی ٢٠٠٢ كێبوو ؟", a: ["ڕۆناڵدینهۆ", "زیدان", "بالاك", "ڕۆناڵدۆی دیاردە"], c: 2 },
         { q: "باشترین یاریزانی لالیگای ٢٠٠٦ كێبوو ؟", a: ["داڤیدڤیا", "ئیتۆ", "ڕۆناڵدینهۆ", "ڕائول"], c: 0 },
         { q: "خێراترین گۆڵ لە خولی یانە پاڵەوانەكان بەناو كێیە ؟", a: ["ڕۆناڵدۆ", "گیگز", "دیلپێرۆ", "ماڵدینی"], c: 3 },
         { q: "زۆرترین گەڕاندنەوە لەیاریەكی جامی جیهانی كێیە ؟", a: ["تیم هوارد", "شمایكڵ", "بوفۆن", "سیزار"], c: 0 },
-        { q: "یەكەم گۆڵی كریستیانۆ بەرامبەر چ. هەڵبژاردەیەك بوو ؟", a: ["سعودیە", "قەتەر", "ئێران", "نیوزلەندا"], c: 2 },
+        { q: "یەكەم گۆڵی كریستیانۆ بەرامبەر چ هەڵبژاردەیەك بوو ؟", a: ["سعودیە", "قەتەر", "ئێران", "نیوزلەندا"], c: 2 },
         { q: "گۆڵكاری مێژووی جامی جیهانی كێیە ؟", a: ["ڕۆناڵدۆ", "پیلێ", "پیكن پاوەر", "كلۆزە"], c: 3 },
         { q: "گۆڵكاری مێژووی جامی وڵاتانی ئەفریقا كێیە ؟", a: ["اوسمهین", "ئیتۆ", "درۆگبا", "ئایۆ"], c: 1 },
         { q: "پاڵەوانی خولی فەرەنسی ساڵی ٢٠٠١ كێبوو ؟", a: ["پاریس سانجێرمان", "لیل", "مارسیلیا", "بۆردۆ"], c: 1 },
@@ -80,36 +81,22 @@
         { q: "یۆرۆی ٢٠٠٤ چ هەڵبژاردەیەك بووبە پاڵەوان ؟", a: ["پورتوگال", "فەڕەنسا", "ئیتالیا", "یونان"], c: 3 },
         { q: "یەكەم ژمارە كە لیۆ میسی پۆشی لەگەڵ بەرشلۆنە ؟", a: ["30", "19", "10", "18"], c: 0 },
         { q: "لە چ ساڵێك عراق بۆ یەکەمجار چووە جامی جیهانی ؟", a: ["1982", "1986", "1990", "1994"], c: 1 },
-        { q: "مۆندیال ٢٠١٨ لەكوێ ئەنجام درا ؟", a: ["قەتەر", "كۆریا", "ڕووسیا", "ئەمریكا"], c: 2 },
-        { q: "کێ گۆڵکاری مێژوویی EURO یە؟", a: ["ڕۆناڵدۆ", "پلاتینی", "مۆلەر", "گریزمان"], c: 0 },
-        { q: "کام یانە زۆرترین جامی سوپەری ئەوروپای هەیە؟", a: ["ڕیاڵ مەدرید", "بەرشلۆنە", "میلان", "هەموویان وەک یەکن"], c: 3 },
-        { q: "کێ خاوەنی خێراترین هاتریكە لە مێژووی پریمەر لیگ؟", a: ["مانێ", "فۆلەر", "ئەگوێرۆ", "کەین"], c: 0 },
-        { q: "کێ ساڵی ٢٠٠٣ یەکەم خەڵاتی Golden Boy بردەوە؟", a: ["ڕافایل ڤان دێر ڤارت", "ڕۆنی", "مێسی", "ڕۆناڵدۆ"], c: 0 },
-        { q: "تاکە یاریزان کە ٣ مۆندیالی بردبێتەوە؟", a: ["پێلێ", "مارادۆنا", "ڕۆناڵدۆ", "زیدان"], c: 0 },
-        { q: "گۆڵکاری مێژوویی یانەی ئارسناڵ کێیە؟", a: ["هێنری", "ئایان ڕایت", "بێرگکامپ", "سانچێز"], c: 0 },
-        { q: "کام وڵات مۆندیالی ١٩٣٠ی بردەوە؟", a: ["ئۆرۆگوای", "ئەرجەنتین", "بەڕازیل", "ئیتاڵیا"], c: 0 },
-        { q: "کێ زۆرترین کلین شیتە لە مێژووی پریمەر لیگ؟", a: ["پیتر چیک", "جەیمس", "سیمان", "شوارزەر"], c: 0 },
-        { q: "کێ گۆڵکاری مێژوویی هەڵبژاردەی فەڕەنسایە؟", a: ["جیرو", "هێنری", "گریزمان", "پلاتینی"], c: 0 },
-        { q: "پاڵەوانی چامپیۆنز لیگی ٢٠٠٤ کێ بوو؟", a: ["پۆرتۆ", "مۆناکۆ", "میلان", "لیڤەرپوول"], c: 0 }
+        { q: "مۆندیال ٢٠١٨ لەکوێ ئەنجام درا ؟", a: ["قەتەر", "كۆریا", "ڕووسیا", "ئەمریكا"], c: 2 }
     ];
 
-    // لێرەدا دەتوانیت تا ١٥٠ پرسیار بە هەمان ستایل زیاد بکەیت
-    for(let i=1; i<=130; i++) {
-        questions.push({ q: `پرسیارێکی تری قورس: گۆڵکاری خولی ئینگلیزی ساڵی ٢٠١٠ کێ بوو؟`, a: ["دیمیتار بێرباتۆڤ", "کارلۆس تێڤێز", "ڕۆنی", "درۆگبا"], c: 3 });
-    }
-
-    let shuffledQs = [];
+    let currentQuestions = [];
     let currentIdx = 0;
     let score = 0;
     let timer;
     let timeLeft = 15;
     let playerName = "";
 
-    function shuffleArray(array) {
+    function shuffle(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
         }
+        return array;
     }
 
     async function getBoard() {
@@ -126,62 +113,59 @@
         playerName = document.getElementById('player-name').value;
         if(!playerName) return alert("تکایە ناوت بنووسە!");
         
-        shuffledQs = [...questions];
-        shuffleArray(shuffledQs); // تێکەڵکردنی پرسیارەکان لێرە دەکرێت
+        // دروستکردنی لیستێکی تێکەڵکراو و بێ دووبارەبوونەوە
+        currentQuestions = shuffle([...allQuestions]);
         
         currentIdx = 0;
         score = 0;
         document.getElementById('start-screen').classList.add('hidden');
         document.getElementById('quiz-screen').classList.remove('hidden');
-        loadNext();
+        loadQuestion();
     }
 
-    function loadNext() {
+    function loadQuestion() {
         clearInterval(timer);
+        if (currentIdx >= currentQuestions.length) {
+            return finish("🏆 پیرۆزە! هەموو پرسیارەکانت تەواو کرد!");
+        }
+
         timeLeft = 15;
         document.getElementById('timer-box').innerText = timeLeft;
         document.getElementById('score-val').innerText = score;
         
-        if (currentIdx >= shuffledQs.length) {
-            shuffleArray(shuffledQs);
-            currentIdx = 0;
-        }
-
-        const q = shuffledQs[currentIdx];
-        document.getElementById('question-text').innerText = q.q; // لێرەدا هیچ ژمارەیەک دانەنراوە
+        const qData = currentQuestions[currentIdx];
+        document.getElementById('question-text').innerText = qData.q;
         
-        const opts = document.getElementById('options-container');
-        opts.innerHTML = '';
+        const optsContainer = document.getElementById('options-container');
+        optsContainer.innerHTML = '';
 
-        q.a.forEach((option, index) => {
+        qData.a.forEach((option, index) => {
             const btn = document.createElement('button');
             btn.innerText = option;
-            btn.onclick = () => check(index === q.c);
-            opts.appendChild(btn);
+            btn.onclick = () => {
+                if(index === qData.c) {
+                    score++;
+                    currentIdx++;
+                    loadQuestion();
+                } else {
+                    finish("❌ وەڵامەکەت هەڵە بوو!");
+                }
+            };
+            optsContainer.appendChild(btn);
         });
 
         timer = setInterval(() => {
             timeLeft--;
             document.getElementById('timer-box').innerText = timeLeft;
-            if(timeLeft <= 0) { clearInterval(timer); finish("⏱️ کات تەواو بوو!"); }
+            if(timeLeft <= 0) { clearInterval(timer); finish("⏱️ کاتت تەواو بوو!"); }
         }, 1000);
     }
 
-    function check(correct) {
+    async function finish(msg) {
         clearInterval(timer);
-        if(correct) {
-            score++;
-            currentIdx++;
-            loadNext();
-        } else {
-            finish("❌ وەڵامەکەت هەڵە بوو!");
-        }
-    }
-
-    async function finish(m) {
         document.getElementById('quiz-screen').classList.add('hidden');
         document.getElementById('result-screen').classList.remove('hidden');
-        document.getElementById('status-msg').innerText = m;
+        document.getElementById('status-msg').innerText = msg;
         document.getElementById('final-info').innerText = `${playerName}: ${score} نمرە`;
         
         try {
