@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>کویزی وەرزشی تایبەت</title>
+    <title>کویزی وەرزشی ٢٤ کاتژمێری</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
-        body { font-family: 'Vazirmatn', sans-serif; background: radial-gradient(circle, #001529, #000c18); color: white; text-align: center; margin: 0; padding: 15px; overflow-x: hidden; }
+        body { font-family: 'Vazirmatn', sans-serif; background: radial-gradient(circle, #001529, #000c18); color: white; text-align: center; margin: 0; padding: 15px; }
         .container { max-width: 700px; margin: 20px auto; background: #001e36; padding: 30px; border-radius: 20px; border: 3px solid #ffd700; box-shadow: 0 0 50px rgba(0,0,0,0.7); }
         .header { font-size: 35px; color: #ffd700; font-weight: bold; margin-bottom: 10px; }
         .score-display { font-size: 22px; color: #ffd700; background: #00334e; padding: 10px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #005073; }
@@ -26,11 +26,11 @@
 <body>
 
 <div class="container">
-    <div class="header">⚽ کویزە وەرزشییەکەت</div>
+    <div class="header">⚽ ڕکابەری ٢٤ کاتژمێری</div>
     
     <div id="start-screen">
-        <p>وەڵامی ڕاست نمرەت پێ دەدات، وەڵامی هەڵە یارییەکە کۆتایی پێ دەهێنێت.</p>
-        <input type="text" id="player-name" placeholder="ناوەکەت لێرە بنووسە...">
+        <p>ڕیزبەندییەکە هەموو شەوێک کاتژمێر ١٢ نوێ دەبێتەوە.</p>
+        <input type="text" id="player-name" placeholder="ناوەکەت بنووسە...">
         <br>
         <button onclick="startGame()" style="width: 200px; background: #28a745;">دەستپێکردن</button>
     </div>
@@ -49,7 +49,7 @@
     </div>
 
     <div class="leaderboard">
-        <h3>🏆 ١٠ باشترین نمرەکان</h3>
+        <h3>🏆 باشترینەکانی ئەمڕۆ</h3>
         <table>
             <thead><tr><th>ناو</th><th>نمرە</th></tr></thead>
             <tbody id="leader-body"></tbody>
@@ -58,7 +58,7 @@
 </div>
 
 <script>
-    // ⚠️ لینکی فایەربەیس لێرە دابنێ ⚠️
+    // ⚠️ لینکی فایەربەیس لێرە دابنێ (کۆتاییەکەی با .json بێت) ⚠️
     const FIREBASE_URL = "https://in-15-second-default-rtdb.firebaseio.com/scores.json";
 
     const questions = [
@@ -100,9 +100,9 @@
         { q: "یۆرۆی ٢٠٠٤ چ هەڵبژاردەیەك بووبە پاڵەوان ؟", a: ["پورتوگال", "فەڕەنسا", "ئیتالیا", "یونان"], c: 3 },
         { q: "یەكەم ژمارە كە لیۆ میسی پۆشی لەگەڵ بەرشلۆنە ؟", a: ["30", "19", "10", "18"], c: 0 },
         { q: "لە چ ساڵێك عراق بۆ یەكەمجار چووە جامی جیهانی ؟", a: ["1982", "1986", "1990", "1994"], c: 1 },
-        { q: "مۆندیال ٢٠١٨ لەكوێ ئەنجام درا ؟", a: ["قەتەر", "كۆریا", "ڕووسیا", "ئەمریكا"], c: 2 },
+        { q: "مۆندیال ٢٠١٨ لەکوێ ئەنجام درا ؟", a: ["قەتەر", "كۆریا", "ڕووسیا", "ئەمریكا"], c: 2 },
         { q: "کام تیم زۆرترین جار پاڵەوانی چامپیۆنزلیگی ئەوروپا بووە؟", a: ["بارسێلۆنا", "ئاسی میلان", "ڕیاڵ مەدرید", "لیڤەرپوول"], c: 2 },
-        { q: "یەکەمین وڵات کە پاڵەوانی جامی جیهانی بوو؟", a: ["برازیل", "ئەڵمانیا", "ئیتالیا", "ئوروگوای"], c: 3 },
+        { q: "یەکەمین وڵات کە پاڵەوانی جامی جیهانی بوو؟", a: ["برازیل", "ئەڵمانیا", "ئیتالیا", "ئۆرۆگوای"], c: 3 },
         { q: "کام یاریزان 8 جار تۆپی زێڕینی بردووە؟", a: ["کریستیانو ڕۆناڵدۆ", "میشێل پلاتینی", "لیۆنیل مەسی", "یوهان کرۆیف"], c: 2 },
         { q: "کام وڵات زۆرترین جار پاڵەوانی کۆپا ئەمێریکا بووە؟", a: ["ئەرجەنتین", "برازیل", "ئوروگوای", "چیلی"], c: 2 },
         { q: "کام یاریزان زۆرترین گۆڵی هێناوە لە مێژووی چامپیۆنزلیگ؟", a: ["لیۆنیل مەسی", "کاریـم بنزێما", "ڕۆبێرت لێڤاندۆفسکی", "کریستیانو ڕۆناڵدۆ"], c: 3 },
@@ -157,6 +157,11 @@
     let timeLeft = 15;
     let pName = "";
 
+    const getDailyUrl = () => {
+        const today = new Date().toISOString().split('T')[0];
+        return FIREBASE_URL.replace(".json", `/${today}.json`);
+    };
+
     function shuffle(arr) {
         for (let i = arr.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -167,17 +172,21 @@
 
     async function loadBoard() {
         try {
-            const r = await fetch(FIREBASE_URL);
+            const r = await fetch(getDailyUrl());
             const d = await r.json();
-            if(!d) return;
+            const body = document.getElementById('leader-body');
+            if(!d) {
+                body.innerHTML = "<tr><td colspan='2'>ئەمڕۆ هێشتا کەس یاری نەکردووە</td></tr>";
+                return;
+            }
             let arr = Object.values(d).sort((a,b) => b.score - a.score).slice(0, 10);
-            document.getElementById('leader-body').innerHTML = arr.map(x => `<tr><td>${x.name}</td><td>${x.score}</td></tr>`).join('');
+            body.innerHTML = arr.map(x => `<tr><td>${x.name}</td><td>${x.score}</td></tr>`).join('');
         } catch(e) {}
     }
 
     function startGame() {
         pName = document.getElementById('player-name').value.trim();
-        if(!pName) return alert("ناوت بنووسە!");
+        if(!pName) return alert("تکایە ناوت بنووسە!");
         gameQs = shuffle([...questions]);
         curIdx = 0;
         score = 0;
@@ -220,9 +229,9 @@
         document.getElementById('status-msg').innerText = msg;
         document.getElementById('final-info').innerText = `${pName}: ${score} خاڵ`;
         try {
-            await fetch(FIREBASE_URL, {
+            await fetch(getDailyUrl(), {
                 method: 'POST',
-                body: JSON.stringify({ name: pName, score: score, date: Date.now() })
+                body: JSON.stringify({ name: pName, score: score, ts: Date.now() })
             });
             loadBoard();
         } catch(e) {}
